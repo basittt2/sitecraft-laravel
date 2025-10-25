@@ -1,13 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-<section class="hero">
-    <div class="hero-content">
-        <h1>Welcome to <span>SiteCraft</span></h1>
-        <p>Your one-stop shop for premium gadgets and smart accessories. Experience quality that inspires.</p>
-        <a href="{{ route('products') }}" class="btn-primary">Shop Now</a>
-    </div>
+<section class="hero" style="background-image: url('{{ asset('images/hero-bg.jpg') }}');">
+  <div class="hero-content">
+      <h1>Welcome to <span>SiteCraft</span></h1>
+      <p>Your one-stop digital and creative store for products & services.</p>
+      <a href="{{ url('/products') }}" class="btn-primary">Explore Catalog</a>
+  </div>
 </section>
+
 
 <section class="features">
     <div class="feature">
@@ -42,8 +43,8 @@
         </div>
         <div class="product-card">
             <img src="{{ asset('images/mouse.jpg') }}" alt="Mouse">
-            <h3>Ergonomic Mouse</h3>
             <p>PKR 7,000</p>
+            <h3>Ergonomic Mouse</h3>
         </div>
     </div>
 </section>
