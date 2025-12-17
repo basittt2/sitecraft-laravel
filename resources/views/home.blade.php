@@ -1,13 +1,36 @@
 @extends('layouts.app')
 
 @section('content')
-<section class="hero" style="background-image: url('{{ asset('images/hero-bg.jpg') }}');">
-  <div class="hero-content">
-      <h1>Welcome to <span>SiteCraft</span></h1>
-      <p>Your one-stop digital and creative store for products & services.</p>
-      <a href="{{ url('/products') }}" class="btn-primary">Explore Catalog</a>
-  </div>
+<section class="bg-gradient-to-b from-slate-900 to-slate-800 text-white">
+    <div class="max-w-7xl mx-auto px-6 py-20">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+
+            <!-- TEXT -->
+            <div>
+                <h1 class="text-4xl font-bold mb-4">
+                    Welcome to SiteCraft
+                </h1>
+                <p class="text-gray-300 mb-6">
+                    Your one-stop digital and creative store for products & services.
+                </p>
+
+                <a href="{{ route('products.index') }}"
+                   class="inline-block bg-indigo-600 hover:bg-indigo-700 px-6 py-3 rounded-md font-semibold">
+                    Explore Catalog
+                </a>
+            </div>
+
+            <!-- IMAGE -->
+            <div class="flex justify-center">
+                <img src="{{ asset('images/delivery.png') }}"
+                     class="max-w-sm w-full"
+                     alt="Fast Delivery">
+            </div>
+
+        </div>
+    </div>
 </section>
+
 
 
 <section class="features">
@@ -44,7 +67,7 @@
         <div class="product-card">
             <img src="{{ asset('images/mouse.jpg') }}" alt="Mouse">
             <p>PKR 7,000</p>
-            <h3>Ergonomic Mouse</h3>
+            <h3>Wireless Mouse</h3>
         </div>
     </div>
 </section>

@@ -1,20 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SiteCraft</title>
-    <link rel="stylesheet" href="{{ asset('css/style.css') }}">
-</head>
-<body>
-    @include('partials.header')
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <main>
-        @yield('content')
-    </main>
+        <title>{{ config('app.name', 'SiteCraft') }}</title>
 
-    @include('partials.footer')
+        <!-- Laravel / auth assets (keep these so Breeze / auth pages still work) -->
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
 
-    <script src="{{ asset('js/main.js') }}"></script>
-</body>
+        <!-- Main marketing/site styles (loaded AFTER Vite so these win if there are conflicts) -->
+        <link rel="stylesheet" href="{{ asset('css/style.css') }}">
+
+        <!-- Site scripts (cart, filters, etc.) -->
+        <script src="{{ asset('js/main.js') }}" defer></script>
+    </head>
+    <body>
+        {{-- Global site header with logo + navigation --}}
+        @include('partials.header')
+
+        <main>
+            @yield('content')
+        </main>
+
+        {{-- Global footer --}}
+        @include('partials.footer')
+    </body>
 </html>
