@@ -15,13 +15,19 @@
 
         <!-- Site scripts (cart, filters, etc.) -->
         <script src="{{ asset('js/main.js') }}" defer></script>
+        <link rel="stylesheet" href="{{ asset('css/admin.css') }}">
+
     </head>
     <body>
         {{-- Global site header with logo + navigation --}}
         @include('partials.header')
 
         <main>
-            @yield('content')
+            @if (isset($slot))
+                {{ $slot }}
+            @else
+                @yield('content')
+            @endif
         </main>
 
         {{-- Global footer --}}

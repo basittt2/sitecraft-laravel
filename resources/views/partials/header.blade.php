@@ -11,6 +11,9 @@
                 <li><a href="{{ url('/') }}" class="{{ Request::is('/') ? 'active' : '' }}">Home</a></li>
                 <li><a href="{{ url('/products') }}" class="{{ Request::is('products') ? 'active' : '' }}">Products</a></li>
                 <li><a href="{{ url('/contact') }}" class="{{ Request::is('contact') ? 'active' : '' }}">Contact</a></li>
+                <li><a href="{{ url('/admin/products') }}" class="{{ Request::is('contact') ? 'active' : '' }}">Admin</a></li>
+
+                
                 <li>
                     <a href="{{ url('/cart') }}" class="cart-link">
                         🛒 Cart <span id="cart-count">0</span>
@@ -21,8 +24,20 @@
 
         <!-- Auth Buttons -->
         <div class="auth-links">
-            <a href="{{ route('login') }}" class="{{ Request::is('login') ? 'active' : '' }}">Login</a>
-            <a href="{{ route('register') }}" class="{{ Request::is('register') ? 'active' : '' }}">Sign Up</a>
+            @guest
+                <a href="{{ route('login') }}" class="{{ Request::is('login') ? 'active' : '' }}">Login</a>
+                <a href="{{ route('register') }}" class="{{ Request::is('register') ? 'active' : '' }}">Sign Up</a>
+            @else
+                <span class="user-name">
+                    {{ Auth::user()->name }}
+                </span>
+                <form method="POST" action="{{ route('logout') }}" style="display:inline;">
+                    @csrf
+                    <button type="submit" class="logout-button">
+                        Log Out
+                    </button>
+                </form>
+            @endguest
         </div>
     </div>
 </header>
