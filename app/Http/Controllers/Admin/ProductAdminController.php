@@ -56,4 +56,18 @@ class ProductAdminController extends Controller
         Product::destroy($id);
         return redirect()->route('admin.products.index')->with('success', 'Product deleted successfully!');
     }
+
+    public function search(Request $request)
+{
+    $query = $request->get('query', '');
+
+    $products = Product::where('name', 'like', "%{$query}%")
+                        ->orWhere('category', 'like', "%{$query}%")
+                        ->take(10)
+                        ->get();
+
+    return response()->json($products);
+}
+
+
 }

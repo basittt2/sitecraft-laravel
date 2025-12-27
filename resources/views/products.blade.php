@@ -6,45 +6,35 @@
     <!-- Page Title -->
     <h1 class="page-title">Product Catalog</h1>
 
-    <!-- LIVE SEARCH -->
+
+    <!-- AJAX Search -->
+
     <div class="live-search-container">
-    <input type="text" id="liveSearch" placeholder="Search by name or category...">
-    <button id="searchBtn" class="search-button">Search</button>
-    <div id="searchResults" class="search-dropdown"></div>
+    <input type="text" id="liveSearch" placeholder="Search by Name or Category...">
+    <div class="search-dropdown" id="searchDropdown"></div>
 </div>
 
-    <!-- Category Filter -->
-    <div class="category-buttons">
-        <button class="filter-btn active" data-category="all">All</button>
-        <button class="filter-btn" data-category="product">Products</button>
-        <button class="filter-btn" data-category="service">Services</button>
-    </div>
 
-    <!-- Sort Dropdown -->
-    <div class="sort-container">
-        <label for="sortSelect">Sort:</label>
-        <select id="sortSelect">
-            <option value="az">Name: A - Z</option>
-            <option value="za">Name: Z - A</option>
-            <option value="low-high">Price: Low - High</option>
-            <option value="high-low">Price: High - Low</option>
-        </select>
-    </div>
-
-    <!-- Product Grid -->
-    <div class="product-grid" id="productGrid">
+<!-- Product Grid -->
+    <div class="product-grid">
         @foreach($products as $product)
-            <div class="product-card" data-category="{{ strtolower($product->category) }}">
-                <img src="{{ asset('images/' . $product->image) }}" alt="{{ $product->name }}">
-                <h3>{{ $product->name }}</h3>
-                <p>{{ $product->description }}</p>
-                <p><strong>PKR {{ number_format($product->price) }}</strong></p>
-                <button class="btn-add-cart"
-                        data-name="{{ $product->name }}"
-                        data-price="{{ $product->price }}"
-                        data-image="{{ asset('images/' . $product->image) }}">
-                    Add to Cart
-                </button>
+            <div class="product-card">
+                <div class="product-image">
+                    <img src="{{ asset('images/' . $product->image) }}" 
+                         alt="{{ $product->name }}" 
+                         loading="lazy">
+                </div>
+                <div class="product-info">
+                    <h3>{{ $product->name }}</h3>
+                    <p class="description">{{ $product->description }}</p>
+                    <p class="price"><strong>PKR {{ number_format($product->price) }}</strong></p>
+                    <button class="btn-add-cart"
+                            data-name="{{ $product->name }}"
+                            data-price="{{ $product->price }}"
+                            data-image="{{ asset('images/' . $product->image) }}">
+                        Add to Cart
+                    </button>
+                </div>
             </div>
         @endforeach
     </div>
@@ -77,6 +67,7 @@
 }
 
 /* SEARCH DROPDOWN */
+/* SEARCH DROPDOWN */
 .search-dropdown {
     position: absolute;
     top: 48px;
@@ -89,6 +80,7 @@
     overflow-y: auto;
     display: none;
     z-index: 999;
+    color: #000; /* Make all text black */
 }
 
 .dropdown-item {
@@ -98,7 +90,19 @@
     align-items: center;
     cursor: pointer;
     border-bottom: 1px solid #eee;
+    color: #000; /* Make text black */
 }
+
+.dropdown-item div {
+    color: #000; /* Ensure nested text (name/category) is black */
+}
+
+.no-result {
+    text-align: center;
+    padding: 10px;
+    color: #000; /* Make no-result text black */
+}
+
 
 .dropdown-item img {
     width: 40px;
@@ -111,11 +115,20 @@
     background: #f7f7f7;
 }
 
-.no-result {
-    text-align: center;
-    padding: 10px;
-    color: #777;
+/* Highlight selected item */
+.dropdown-item.selected {
+    background-color: #2563eb; /* blue background */
+    color: #fff; /* white text for contrast */
 }
+
+/* Highlight selected product card */
+.product-card.highlighted {
+    border: 2px solid #2563eb;
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+    transform: scale(1.02);
+    transition: all 0.3s ease;
+}
+
 
 /* CATEGORY BUTTONS */
 .category-buttons {
@@ -207,136 +220,222 @@
     opacity: 1;
     transform: translateY(0);
 }
+
+/* PAGE TITLE */
+.page-title {
+    text-align: center;
+    font-size: 2.3rem;
+    font-weight: 700;
+    margin-bottom: 25px;
+}
+
+/* SEARCH BAR */
+.live-search-container {
+    width: 60%;
+    margin: 0 auto 25px auto;
+    position: relative;
+}
+
+#liveSearch {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 16px;
+    outline: none;
+}
+
+/* SEARCH DROPDOWN */
+.search-dropdown {
+    position: absolute;
+    top: 48px;
+    left: 0;
+    width: 100%;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    max-height: 250px;
+    overflow-y: auto;
+    display: none;
+    z-index: 999;
+    color: #000;
+}
+
+.dropdown-item {
+    padding: 12px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+    color: #000;
+}
+
+.dropdown-item div {
+    color: #000;
+}
+
+.dropdown-item img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.dropdown-item:hover {
+    background: #f7f7f7;
+}
+
+.no-result {
+    text-align: center;
+    padding: 10px;
+    color: #000;
+}
+
+.product-card.highlighted {
+    border: 2px solid #2563eb;
+    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+    transform: scale(1.02);
+    transition: all 0.3s ease;
+}
+
 </style>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
+document.addEventListener('DOMContentLoaded', () => {
+    // Fade-in animation for product cards
+    const cards = document.querySelectorAll('.product-card');
+    cards.forEach((card, index) => {
+        setTimeout(() => card.classList.add('show'), index * 100);
+    });
+});
 
-    /* ------------ AJAX LIVE SEARCH ------------ */
+
+document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('liveSearch');
-    const resultsBox = document.getElementById('searchResults');
+    const dropdown = document.getElementById('searchDropdown');
 
-    searchInput.addEventListener('keyup', function () {
+    searchInput.addEventListener('keyup', function() {
         const query = this.value.trim();
 
-        if (query.length === 0) {
-            resultsBox.style.display = "none";
-            resultsBox.innerHTML = "";
+        if(query.length === 0) {
+            dropdown.style.display = 'none';
+            dropdown.innerHTML = '';
             return;
         }
 
-        fetch(`/ajax-search?query=${query}`)
-            .then(res => res.json())
+        fetch(`/products/search?query=${query}`)
+            .then(response => response.json())
             .then(data => {
-                let html = "";
+                dropdown.innerHTML = '';
 
-                if (data.length > 0) {
-                    html = data.map(item => `
-                        <div class="dropdown-item">
-                            <img src="/images/${item.image}">
-                            <span><strong>${item.name}</strong> (${item.category})</span>
-                        </div>
-                    `).join('');
+                if(data.length > 0) {
+                    data.forEach(item => {
+                        const div = document.createElement('div');
+                        div.classList.add('dropdown-item');
+                        div.innerHTML = `
+                            <img src="/images/${item.image}" alt="${item.name}">
+                            <div>
+                                <strong>${item.name}</strong><br>
+                                <small>${item.category}</small>
+                            </div>
+                        `;
+                        div.addEventListener('click', () => {
+                            searchInput.value = item.name;
+                            dropdown.style.display = 'none';
+                        });
+                        dropdown.appendChild(div);
+                    });
                 } else {
-                    html = `<div class="dropdown-item no-result">No results found</div>`;
+                    dropdown.innerHTML = '<div class="no-result">No results found</div>';
                 }
 
-                resultsBox.innerHTML = html;
-                resultsBox.style.display = "block";
-            });
+                dropdown.style.display = 'block';
+            })
+            .catch(err => console.error(err));
     });
 
-    /* ------------ CATEGORY FILTER ------------ */
-    const buttons = document.querySelectorAll('.filter-btn');
-    const cards = document.querySelectorAll('.product-card');
-
-    buttons.forEach(btn => {
-        btn.addEventListener('click', () => {
-            buttons.forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-
-            const category = btn.dataset.category;
-
-            cards.forEach(card => {
-                card.style.display =
-                    category === 'all' || card.dataset.category === category
-                        ? 'block'
-                        : 'none';
-            });
-        });
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!dropdown.contains(e.target) && e.target !== searchInput) {
+            dropdown.style.display = 'none';
+        }
     });
-
-    /* ------------ SORTING ------------ */
-    const sortSelect = document.getElementById('sortSelect');
-    const grid = document.getElementById('productGrid');
-
-    sortSelect.addEventListener('change', () => {
-        const order = sortSelect.value;
-        const items = Array.from(grid.children);
-
-        items.sort((a, b) => {
-            const nameA = a.querySelector('h3').textContent.toLowerCase();
-            const nameB = b.querySelector('h3').textContent.toLowerCase();
-
-            const priceA = parseFloat(a.querySelector('strong').textContent.replace(/[^\d]/g, ""));
-            const priceB = parseFloat(b.querySelector('strong').textContent.replace(/[^\d]/g, ""));
-
-            if (order === 'az') return nameA.localeCompare(nameB);
-            if (order === 'za') return nameB.localeCompare(nameA);
-            if (order === 'low-high') return priceA - priceB;
-            if (order === 'high-low') return priceB - priceA;
-        });
-
-        items.forEach(item => grid.appendChild(item));
-    });
-
 });
 
-document.addEventListener('DOMContentLoaded', function () {
+
+document.addEventListener('DOMContentLoaded', () => {
     const searchInput = document.getElementById('liveSearch');
-    const resultsBox = document.getElementById('searchResults');
-    const searchBtn = document.getElementById('searchBtn');
+    const dropdown = document.getElementById('searchDropdown');
 
-    function runSearch() {
-        const query = searchInput.value.trim();
+    searchInput.addEventListener('keyup', function() {
+        const query = this.value.trim();
 
-        if (query.length === 0) {
-            resultsBox.style.display = "none";
-            resultsBox.innerHTML = "";
+        if(query.length === 0) {
+            dropdown.style.display = 'none';
+            dropdown.innerHTML = '';
             return;
         }
 
-        fetch(`/ajax-search?query=${query}`)
-            .then(res => res.json())
+        fetch(`/products/search?query=${query}`)
+            .then(response => response.json())
             .then(data => {
-                let html = "";
+                dropdown.innerHTML = '';
 
-                if (data.length > 0) {
-                    html = data.map(item => `
-                        <div class="dropdown-item">
-                            <img src="/images/${item.image}">
-                            <span><strong>${item.name}</strong> (${item.category})</span>
-                        </div>
-                    `).join('');
+                if(data.length > 0) {
+                    data.forEach(item => {
+                        const div = document.createElement('div');
+                        div.classList.add('dropdown-item');
+                        div.innerHTML = `
+                            <img src="/images/${item.image}" alt="${item.name}">
+                            <div>
+                                <strong>${item.name}</strong><br>
+                                <small>${item.category}</small>
+                            </div>
+                        `;
+
+                        div.addEventListener('click', () => {
+                            // Fill input
+                            searchInput.value = item.name;
+                            dropdown.style.display = 'none';
+
+                            // Remove highlight from all product cards
+                            document.querySelectorAll('.product-card').forEach(card => {
+                                card.classList.remove('highlighted');
+                            });
+
+                            // Highlight all matching product cards
+                            document.querySelectorAll('.product-card').forEach(card => {
+                                const name = card.querySelector('h3').textContent.trim();
+                                const category = card.querySelector('small')?.textContent.trim();
+                                if(name === item.name || category === item.category) {
+                                    card.classList.add('highlighted');
+                                    card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                                }
+                            });
+                        });
+
+                        dropdown.appendChild(div);
+                    });
                 } else {
-                    html = `<div class="dropdown-item no-result">No results found</div>`;
+                    dropdown.innerHTML = '<div class="no-result">No results found</div>';
                 }
 
-                resultsBox.innerHTML = html;
-                resultsBox.style.display = "block";
-            });
-    }
+                dropdown.style.display = 'block';
+            })
+            .catch(err => console.error(err));
+    });
 
-    // 🔘 Button click triggers search
-    searchBtn.addEventListener('click', runSearch);
-
-    // ⌨️ Optional: pressing ENTER also triggers search
-    searchInput.addEventListener('keyup', function (e) {
-        if (e.key === 'Enter') {
-            runSearch();
+    // Close dropdown when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!dropdown.contains(e.target) && e.target !== searchInput) {
+            dropdown.style.display = 'none';
         }
     });
 });
+
+
+
 
 </script>
 

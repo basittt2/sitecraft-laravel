@@ -15,21 +15,33 @@ Route::get('/products', [ProductController::class, 'index'])
     ->name('products.index');
 
 
+// Admin products listing
 Route::get('/admin/products', [ProductAdminController::class, 'index'])
-    ->name('products.admin.index');
+    ->name('admin.products.index');
 
+// Show create form
 Route::get('/admin/products/create', [ProductAdminController::class, 'create'])
     ->name('admin.products.create');
 
+// Store product
+Route::post('/admin/products', [ProductAdminController::class, 'store'])
+    ->name('admin.products.store');
 
-Route::get('/admin/products/edit', [ProductAdminController::class, 'edit'])
+// Show edit form
+Route::get('/admin/products/edit/{id}', [ProductAdminController::class, 'edit'])
     ->name('admin.products.edit');
 
+// Update product
+Route::put('/admin/products/{id}', [ProductAdminController::class, 'update'])
+    ->name('admin.products.update');
 
-Route::get('/admin/products/delete', [ProductAdminController::class, 'destroy'])
-    ->name('admin.products.delete');
-
+// Delete product
+Route::delete('/admin/products/{id}', [ProductAdminController::class, 'destroy'])
+    ->name('admin.products.destroy');
     
+
+Route::get('/products/search', [ProductAdminController::class, 'search'])->name('products.search');
+
 
 
 // CONTACT PAGE
