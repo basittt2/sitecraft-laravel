@@ -9,7 +9,7 @@
         <form class="contact-form">
             <div class="form-group">
                 <label for="name">Your Name</label>
-                <input type="text" id="name" placeholder="John Doe">
+                <input type="text" id="name" placeholder="Sam Boxer">
             </div>
 
             <div class="form-group">
